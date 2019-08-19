@@ -341,6 +341,12 @@ class User_model extends CI_Model
 				->setSecret($this->config->item('shj_radius')['secret']);
 			if($client->accessRequest($username, $password))
 				return TRUE;
+		} else if($this->config->item('shj_authenticate') == 'ldap') {
+			$ldap = new \Adldap\Adldap();
+			$ldap->addProvider($this->config->item('shj_ldap'));
+
+			$guard = $ldap->getDefaultProvider()->getGuard();
+			return $guard->attempt($username, $password);
 		}
 		return FALSE;
 	}
