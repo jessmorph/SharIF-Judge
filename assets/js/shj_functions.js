@@ -341,6 +341,16 @@ $(document).ready(function () {
  * Top Bar
  */
 $(document).ready(function () {
+	$('.shj_menu').on('focusin',function(e){
+		$(this).children(".top_menu").show();
+		$(this).addClass('shj_white');
+		$("#side_bar").on('focusin', function (e) {
+			if(!$(e.target).parent().is('top_menu')){
+				$('.shj_menu').children(".top_menu").hide();
+				$('.shj_menu').removeClass('shj_white');
+			}
+		})
+	});
 	$("#top_bar").hoverIntent({
 		over: function () {
 			$(this).children(".top_menu").show();
@@ -352,6 +362,11 @@ $(document).ready(function () {
 		},
 		selector: '.top_object.shj_menu'
 	});
+	$(".select_assignment").on('keyup', function (e) {
+		if(e.which==13){
+			$(this).trigger("click");
+		}
+	})
 	$(".select_assignment").click(
 		function () {
 			var id = $(this).children('i').addBack('i').data('id');
@@ -554,4 +569,27 @@ $(document).ready(function(){
  */
 $(document).ready(function(){
 	$('input').attr('dir', 'auto');
+});
+
+/**
+ * Skip links
+ */
+$(document).ready(function(){
+	// bind a click event to the 'skip' link
+	$(".skip").click(function(event){
+    
+		// strip the leading hash and declare
+		// the content we're skipping to
+		var skipTo="#"+this.href.split('#')[1];
+
+		// Setting 'tabindex' to -1 takes an element out of normal 
+		// tab flow but allows it to be focused via javascript
+		$(skipTo).attr('tabindex', -1).on('blur focusout', function () {
+
+			// when focus leaves this element, 
+			// remove the tabindex attribute
+			$(this).removeAttr('tabindex');
+
+		}).focus(); // focus on the content container
+	});
 });

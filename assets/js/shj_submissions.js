@@ -12,6 +12,11 @@ $(document).ready(function () {
 		e.preventDefault();
 		$('.code-column').selectText();
 	});
+	$(".btn").on('keyup', function (e) {
+		if(e.which==13){
+			$(this).trigger("click");
+		}
+	})
 	$(".btn").click(function () {
 		var button = $(this);
 		var row = button.parents('tr');
@@ -62,6 +67,11 @@ $(document).ready(function () {
 
 	});
 	$(".shj_rejudge").attr('title', 'Rejudge');
+	$(".shj_rejudge").on('keyup', function (e) {
+		if(e.which==13){
+			$(this).trigger("click");
+		}
+	})
 	$(".shj_rejudge").click(function () {
 		var row = $(this).parents('tr');
 		$.ajax({
@@ -87,6 +97,11 @@ $(document).ready(function () {
 			}
 		});
 	});
+	$(".set_final").on('keyup', function (e) {
+		if(e.which==32){
+			$(this).trigger("click");
+		}
+	})
 	$(".set_final").click(
 		function () {
 			var row = $(this).parents('tr');
@@ -107,6 +122,8 @@ $(document).ready(function () {
 				error: shj.loading_error,
 				success: function (response) {
 					if (response.done) {
+						$("tr[data-u='" + username + "'][data-p='" + problem + "'] i.set_final").attr("aria-checked", false);
+						$("tr[data-u='" + username + "'][data-p='" + problem + "'][data-s='" + submit_id + "'] i.set_final").attr("aria-checked", true);
 						$("tr[data-u='" + username + "'][data-p='" + problem + "'] i.set_final").removeClass('fa-check-circle-o color11').addClass('fa-circle-o');
 						$("tr[data-u='" + username + "'][data-p='" + problem + "'][data-s='" + submit_id + "'] i.set_final").removeClass('fa-circle-o').addClass('fa-check-circle-o color11');
 					}

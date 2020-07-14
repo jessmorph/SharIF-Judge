@@ -108,7 +108,7 @@
 		<tr data-u="{{ submission.username }}" data-a="{{ submission.assignment }}" data-p="{{ submission.problem }}" data-s="{{ submission.submit_id }}" {% if view == 'final' and j is even %}class="hl"{% endif %}>
 		{% if view == 'all' %}
 			<td>
-				<i class="pointer set_final fa {{ submission.is_final ? 'fa-check-circle-o color11' : 'fa-circle-o' }} fa-2x"></i>
+				<i tabindex="0" aria-label="Set Final" role="checkbox" aria-checked="{{ submission.is_final ? 'true' : 'false' }}" class="pointer set_final fa {{ submission.is_final ? 'fa-check-circle-o color11' : 'fa-circle-o' }} fa-2x"></i>
 			</td>
 		{% endif %}
 		{% if user.level > 0 %}
@@ -126,7 +126,7 @@
 			<td>{{ submission.time }}</td>
 			<td>{{ submission.pre_score }}</td>
 			<td>
-				<span class="tiny_text" {{ submission.delay > 0 ? 'style="color:red;"' }}'>
+				<span class="tiny_text" {{ submission.delay > 0 ? 'style="color:red;"' }}>
 				{% if submission.delay <= 0 %}
 					No Delay
 				{% else %}
@@ -148,7 +148,7 @@
 					{% else %}
 						{% set submission_class = 'btn shj-blue' %}
 					{% endif %}
-					<div class="{{ submission_class }}" data-type="result" >
+					<div tabindex="0" class="{{ submission_class }}" data-type="result" >
 						{% if submission.status == 'SCORE' %}
 							{{ submission.final_score }}
 						{% else %}
@@ -159,9 +159,9 @@
 			</td>
 			<td>
 				{% if submission.file_type == 'zip' or submission.file_type == 'pdf' or submission.file_type == 'txt' %}
-					<div class="btn shj-orange" data-type="download">Download</div>
+					<div tabindex="0" class="btn shj-orange" data-type="download">Download</div>
 				{% else %}
-					<div class="btn shj-orange" data-type="code" >Code</div>
+					<div tabindex="0" class="btn shj-orange" data-type="code" >Code</div>
 				{% endif %}
 			</td>
 			{% if user.level > 0 %}
@@ -169,13 +169,13 @@
 				{% if submission.status == 'Uploaded' %}
 					---
 				{% else %}
-					<div class="btn" data-type="log" >Log</div>
+					<div tabindex="0" class="btn" data-type="log" >Log</div>
 				{% endif %}
 			</td>
 			{% endif %}
 			{% if user.level >= 2 %}
 				<td>
-					<div class="shj_rejudge pointer"><i class="fa fa-refresh fa-lg color10"></i></div>
+					<div tabindex="0" class="shj_rejudge pointer"><i class="fa fa-refresh fa-lg color10"></i></div>
 				</td>
 			{% endif %}
 		</tr>
