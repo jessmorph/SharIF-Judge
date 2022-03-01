@@ -42,12 +42,12 @@ class Logs_model extends CI_Model
 		$result = $this->db->query("SELECT * FROM shj_logins WHERE username='".$username."' AND ip_address!='".$ip_adrress."' ORDER BY timestamp DESC")->row();
 		if ($result === NULL) {
 			$logins = array(
-	      'username' => $username,
-	      'ip_address' => $ip_adrress
-	    );
-	    $this->db->insert('logins', $logins);
+				'username' => $username,
+				'ip_address' => $ip_adrress
+			);
+			$this->db->insert('logins', $logins);
 		}
-		else{
+		else {
 			$get_last_login_id = $result -> login_id;
 			$logins = array(
 				'username' => $username,
