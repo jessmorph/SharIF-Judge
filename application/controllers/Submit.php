@@ -59,6 +59,7 @@ class Submit extends CI_Controller
 			case 'zip': return 'zip';
 			case 'pdf': return 'pdf';
 			case 'txt': return 'txt';
+			case 'javascript': return 'js';
 			default: return FALSE;
 		}
 	}
@@ -78,6 +79,7 @@ class Submit extends CI_Controller
 			case 'zip': return ($extension==='zip'?TRUE:FALSE);
 			case 'pdf': return ($extension==='pdf'?TRUE:FALSE);
 			case 'txt': return ($extension==='txt'?TRUE:FALSE);
+			case 'js': return ($extension==='js'?TRUE:FALSE);
 		}
 	}
 
@@ -89,7 +91,7 @@ class Submit extends CI_Controller
 	{
 		if ($str=='0')
 			return FALSE;
-		if (in_array( strtolower($str),array('c', 'c++', 'python 2', 'python 3', 'java', 'zip', 'pdf', 'txt')))
+		if (in_array( strtolower($str),array('c', 'c++', 'python 2', 'python 3', 'java', 'zip', 'pdf', 'txt', 'javascript')))
 			return TRUE;
 		return FALSE;
 	}
@@ -203,6 +205,8 @@ class Submit extends CI_Controller
 		$config['max_file_name'] = 20;
 		$config['remove_spaces'] = TRUE;
 		$this->upload->initialize($config);
+		//header('Content-type: application/json');echo json_encode($config);exit();		
+
 
 		if ($this->upload->do_upload('userfile'))
 		{
