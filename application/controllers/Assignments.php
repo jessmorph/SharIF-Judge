@@ -317,9 +317,9 @@ class Assignments extends CI_Controller
 						'score' => 100,
 						'c_time_limit' => 500,
 						'python_time_limit' => 1500,
+						'javascript_time_limit' => 2000,//javascript 
 						'java_time_limit' => 2000,
 						'memory_limit' => 50000,
-						'allowed_languages' => 'C,C++,Python 2,Python 3,Java',
 						'diff_cmd' => 'diff',
 						'diff_arg' => '-bB',
 						'is_upload_only' => 0
@@ -331,6 +331,7 @@ class Assignments extends CI_Controller
 				$scores = $this->input->post('score');
 				$c_tl = $this->input->post('c_time_limit');
 				$py_tl = $this->input->post('python_time_limit');
+				$js_tl = $this->input->post('javascript_time_limit'); //javascript
 				$java_tl = $this->input->post('java_time_limit');
 				$ml = $this->input->post('memory_limit');
 				$ft = $this->input->post('languages');
@@ -347,6 +348,7 @@ class Assignments extends CI_Controller
 						'score' => $scores[$i],
 						'c_time_limit' => $c_tl[$i],
 						'python_time_limit' => $py_tl[$i],
+						'javascript_time_limit' => $js_tl[$i], //javascript
 						'java_time_limit' => $java_tl[$i],
 						'memory_limit' => $ml[$i],
 						'allowed_languages' => $ft[$i],
@@ -372,7 +374,7 @@ class Assignments extends CI_Controller
 	{
 
 		// Check permission
-
+		// var_dump($_POST); die();
 		if ($this->user->level <= 1) // permission denied
 			show_404();
 
@@ -386,14 +388,16 @@ class Assignments extends CI_Controller
 		$this->form_validation->set_rules('score[]', 'problem score', 'required|integer');
 		$this->form_validation->set_rules('c_time_limit[]', 'C/C++ time limit', 'required|integer');
 		$this->form_validation->set_rules('python_time_limit[]', 'python time limit', 'required|integer');
+		$this->form_validation->set_rules('javascript_time_limit[]', 'javascript time limit', 'required|integer'); //javascript
 		$this->form_validation->set_rules('java_time_limit[]', 'java time limit', 'required|integer');
 		$this->form_validation->set_rules('memory_limit[]', 'memory limit', 'required|integer');
 		$this->form_validation->set_rules('languages[]', 'languages', 'required');
 		$this->form_validation->set_rules('diff_cmd[]', 'diff command', 'required');
 		$this->form_validation->set_rules('diff_arg[]', 'diff argument', 'required');
 
-		// Validate input data
 
+		// Validate input data
+		// var_dump($this->form_validation->run()); die();	
 		if ( ! $this->form_validation->run())
 			return FALSE;
 
@@ -423,8 +427,9 @@ class Assignments extends CI_Controller
 
 		$this->messages[] = array(
 			'type' => 'success',
-			'text' => 'Assignment '.($this->edit?'updated':'added').' successfully.'
+			'text' => 'Assignment '  .($this->edit?'updated':'added').' successfully.'
 		);
+
 
 		// Create assignment directory
 		if ( ! file_exists($assignment_dir) )
@@ -449,7 +454,7 @@ class Assignments extends CI_Controller
 		elseif ( ! $zip_uploaded )
 			$this->messages[] = array(
 				'type' => 'error',
-				'text' => "Error: Error uploading tests zip file: ".$this->upload->display_errors('', '')
+				'text' => "Error: Error uploading tests zip file: " .$this->upload->display_errors('', '')
 			);
 		else
 			$this->messages[] = array(
