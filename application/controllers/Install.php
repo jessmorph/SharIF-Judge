@@ -129,18 +129,19 @@ class Install extends CI_Controller
 
 			// create table 'problems'
 			$fields = array(
-				'assignment'        => array('type' => 'SMALLINT', 'constraint' => 4, 'unsigned' => TRUE),
-				'id'                => array('type' => 'SMALLINT', 'constraint' => 4, 'unsigned' => TRUE),
-				'name'              => array('type' => 'VARCHAR', 'constraint' => 50, 'default' => ''),
-				'score'             => array('type' => 'INT', 'constraint' => 11),
-				'is_upload_only'    => array('type' => 'TINYINT', 'constraint' => 1, 'default' => '0'),
-				'c_time_limit'      => array('type' => 'INT', 'constraint' => 11, 'unsigned' => TRUE, 'default' => 500),
-				'python_time_limit' => array('type' => 'INT', 'constraint' => 11, 'unsigned' => TRUE, 'default' => 1500),
-				'java_time_limit'   => array('type' => 'INT', 'constraint' => 11, 'unsigned' => TRUE, 'default' => 2000),
-				'memory_limit'      => array('type' => 'INT', 'constraint' => 11, 'unsigned' => TRUE, 'default' => 50000),
-				'allowed_languages' => array('type' => 'TEXT'),
-				'diff_cmd'          => array('type' => 'VARCHAR', 'constraint' => 20, 'default' => 'diff'),
-				'diff_arg'          => array('type' => 'VARCHAR', 'constraint' => 20, 'default' => '-bB'),
+				'assignment'            => array('type' => 'SMALLINT', 'constraint' => 4, 'unsigned' => TRUE),
+				'id'                    => array('type' => 'SMALLINT', 'constraint' => 4, 'unsigned' => TRUE),
+				'name'                  => array('type' => 'VARCHAR', 'constraint' => 50, 'default' => ''),
+				'score'                 => array('type' => 'INT', 'constraint' => 11),
+				'is_upload_only'        => array('type' => 'TINYINT', 'constraint' => 1, 'default' => '0'),
+				'c_time_limit'          => array('type' => 'INT', 'constraint' => 11, 'unsigned' => TRUE, 'default' => 500),
+				'python_time_limit'     => array('type' => 'INT', 'constraint' => 11, 'unsigned' => TRUE, 'default' => 1500),
+				'javascript_time_limit' => array('type' => 'INT', 'constraint' => 11, 'unsigned' => TRUE, 'default' => 2000),
+				'java_time_limit'       => array('type' => 'INT', 'constraint' => 11, 'unsigned' => TRUE, 'default' => 2000),
+				'memory_limit'          => array('type' => 'INT', 'constraint' => 11, 'unsigned' => TRUE, 'default' => 50000),
+				'allowed_languages'     => array('type' => 'TEXT'),
+				'diff_cmd'              => array('type' => 'VARCHAR', 'constraint' => 20, 'default' => 'diff'),
+				'diff_arg'              => array('type' => 'VARCHAR', 'constraint' => 20, 'default' => '-bB'),
 			);
 			$this->dbforge->add_field($fields);
 			$this->dbforge->add_key(array('assignment', 'id'));
