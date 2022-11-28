@@ -91,6 +91,8 @@ class Queueprocess extends CI_Controller
 				$time_limit = $problem['c_time_limit']/1000;
 			elseif ($file_type === 'java')
 				$time_limit = $problem['java_time_limit']/1000;
+			elseif ($file_type === 'js')
+				$time_limit = $problem['javascript_time_limit']/1000;	
 			elseif ($file_extension === 'py')
 				$time_limit = $problem['python_time_limit']/1000;
 			$time_limit = round($time_limit, 3);
