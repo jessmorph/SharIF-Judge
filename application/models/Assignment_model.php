@@ -79,6 +79,7 @@ class Assignment_model extends CI_Model
 		$scores = $this->input->post('score');
 		$c_tl = $this->input->post('c_time_limit');
 		$py_tl = $this->input->post('python_time_limit');
+		$js_tl = $this->input->post('javascript_time_limit');
 		$java_tl = $this->input->post('java_time_limit');
 		$ml = $this->input->post('memory_limit');
 		$ft = $this->input->post('languages');
@@ -95,6 +96,8 @@ class Assignment_model extends CI_Model
 				$item = trim($item);
 				$item2 = strtolower($item);
 				$item = ucfirst($item2);
+				// if ($item2 === 'javascript')
+				// 	$item = 'JavaScript';
 				if ($item2 === 'python2')
 					$item = 'Python 2';
 				elseif ($item2 === 'python3')
@@ -102,10 +105,10 @@ class Assignment_model extends CI_Model
 				elseif ($item2 === 'pdf')
 					$item = 'PDF';
 				$item2 = strtolower($item);
-				if ( ! in_array($item2, array('c','c++','python 2','python 3','java','zip','pdf','txt')))
+				if ( ! in_array($item2, array('c','c++','python 2','python 3','javascript','java','zip','pdf','txt')))
 					continue;
 				// If the problem is not Upload-Only, its language should be one of {C,C++,Python 2, Python 3,Java}
-				if ( ! in_array($i, $uo) && ! in_array($item2, array('c','c++','python 2','python 3','java')) )
+				if ( ! in_array($i, $uo) && ! in_array($item2, array('c','c++','python 2','python 3','javascript','java')) )
 					continue;
 				$ft[$i-1] .= $item.",";
 			}
@@ -118,6 +121,7 @@ class Assignment_model extends CI_Model
 				'is_upload_only' => in_array($i,$uo)?1:0,
 				'c_time_limit' => $c_tl[$i-1],
 				'python_time_limit' => $py_tl[$i-1],
+				'javascript_time_limit' => $js_tl[$i-1],
 				'java_time_limit' => $java_tl[$i-1],
 				'memory_limit' => $ml[$i-1],
 				'allowed_languages' => $ft[$i-1],
