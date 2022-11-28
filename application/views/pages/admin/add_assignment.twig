@@ -33,6 +33,7 @@
 	<td><input aria-label="Score" type="text" name="score[]" class="sharif_input tiny2" value="100"/></td>\
 	<td><input aria-label="Time Limit for C" type="text" name="c_time_limit[]" class="sharif_input tiny2" value="500"/></td>\
 	<td><input aria-label="Time Limit for Python" type="text" name="python_time_limit[]" class="sharif_input tiny2" value="1500"/></td>\
+	<td><input aria-label="Time Limit for JavaScript" type="text" name="javascript_time_limit[]" class="sharif_input tiny2" value="2000"/></td>\
 	<td><input aria-label="Time Limit for Java" type="text" name="java_time_limit[]" class="sharif_input tiny2" value="2000"/></td>\
 	<td><input aria-label="Memory Limit" type="text" name="memory_limit[]" class="sharif_input tiny" value="50000"/></td>\
 	<td><input aria-label="Allowed Languages" type="text" name="languages[]" class="sharif_input short2" value="C,C++,Python 2,Python 3,Java"/></td>\
@@ -195,7 +196,7 @@
 		<th rowspan="2"></th>
 		<th rowspan="2">Name</th>
 		<th rowspan="2">Score</th>
-		<th colspan="3" style="border-bottom: 1px solid #BDBDBD">Time Limit (ms)</th>
+		<th colspan="4" style="border-bottom: 1px solid #BDBDBD">Time Limit (ms)</th>
 		<th rowspan="2">Memory<br>Limit (kB)</th>
 		<th rowspan="2">Allowed<br>Languages (<a aria-label="Link Help For Languages" target="_blank" href="https://github.com/ifunpar/Sharif-Judge/blob/docs/v1.4/add_assignment.md#allowed-languages">?</a>)</th>
 		<th rowspan="2">Diff<br>Command (<a aria-label="Link Help For Diff Command" target="_blank" href="https://github.com/ifunpar/Sharif-Judge/blob/docs/v1.4/add_assignment.md#diff-command">?</a>)</th>
@@ -204,7 +205,7 @@
 		<th rowspan="2"></th>
 	</tr>
 	<tr>
-		<th>C/C++</th><th>Python</th><th>Java</th>
+		<th>C/C++</th><th>Python</th><th>JavaScript</th><th>Java</th>
 	</tr>
 	</thead>
 	<tbody>
@@ -215,6 +216,7 @@
 			<td><input aria-label="Score" type="text" name="score[]" class="sharif_input tiny2" value="{{ problem.score }}"/></td>
 			<td><input aria-label="Time Limit for C" type="text" name="c_time_limit[]" class="sharif_input tiny2" value="{{ problem.c_time_limit }}"/></td>
 			<td><input aria-label="Time Limit for Python" type="text" name="python_time_limit[]" class="sharif_input tiny2" value="{{ problem.python_time_limit }}"/></td>
+			<td><input aria-label="Time Limit for JavaScript" type="text" name="javascript_time_limit[]" class="sharif_input tiny2" value="{{ problem.javascript_time_limit }}"/></td>
 			<td><input aria-label="Time Limit for Java" type="text" name="java_time_limit[]" class="sharif_input tiny2" value="{{ problem.java_time_limit }}"/></td>
 			<td><input aria-label="Memory Limit" type="text" name="memory_limit[]" class="sharif_input tiny" value="{{ problem.memory_limit }}"/></td>
 			<td><input aria-label="Allowed Languages" type="text" name="languages[]" class="sharif_input short2" value="{{ problem.allowed_languages }}"/></td>
@@ -231,6 +233,7 @@
 {{ form_error('score[]', '<div class="shj_error">', '</div>') }}
 {{ form_error('c_time_limit[]', '<div class="shj_error">', '</div>') }}
 {{ form_error('python_time_limit[]', '<div class="shj_error">', '</div>') }}
+{{ form_error('javascript_time_limit[]', '<div class="shj_error">', '</div>') }}
 {{ form_error('java_time_limit[]', '<div class="shj_error">', '</div>') }}
 {{ form_error('memory_limit[]', '<div class="shj_error">', '</div>') }}
 {{ form_error('languages[]', '<div class="shj_error">', '</div>') }}
