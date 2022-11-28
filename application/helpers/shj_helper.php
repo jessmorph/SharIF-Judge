@@ -78,10 +78,12 @@ if ( ! function_exists('filetype_to_extension'))
 			case 'cpp': return 'cpp';
 			case 'py2': return 'py';
 			case 'py3': return 'py';
+			case 'js': return 'js';
 			case 'java': return 'java';
 			case 'zip': return 'zip';
 			case 'pdf': return 'pdf';
 			case 'txt': return 'txt';
+
 			default: return FALSE;
 		}
 	}
@@ -102,6 +104,7 @@ if ( ! function_exists('filetype_to_language'))
 			case 'cpp': return 'C++';
 			case 'py2': return 'Py 2';
 			case 'py3': return 'Py 3';
+			case 'js': return 'Js';
 			case 'java': return 'Java';
 			case 'zip': return 'Zip';
 			case 'pdf': return 'PDF';
