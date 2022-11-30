@@ -106,14 +106,20 @@ if [ ${15} = "1" ]; then
 else
 	PY_SHIELD_ON=false
 fi
-# enable/disable java security manager
+# enable/disable Javascript shield
 if [ ${16} = "1" ]; then
+	JS_SHIELD_ON=true
+else
+	JS_SHIELD_ON=false
+fi
+# enable/disable java security manager
+if [ ${17} = "1" ]; then
 	JAVA_POLICY="-Djava.security.manager -Djava.security.policy=java.policy"
 else
 	JAVA_POLICY=""
 fi
 # enable/disable displaying java exception to students
-if [ ${17} = "1" ]; then
+if [ ${18} = "1" ]; then
 	DISPLAY_JAVA_EXCEPTION_ON=true
 else
 	DISPLAY_JAVA_EXCEPTION_ON=false
@@ -183,6 +189,8 @@ if [[ $EXT = "c" || $EXT = "cpp" ]]; then
 	shj_log "C/C++ Shield: $C_SHIELD_ON"
 elif [[ $EXT = "py2" || $EXT = "py3" ]]; then
 	shj_log "Python Shield: $PY_SHIELD_ON"
+elif [[ $EXT = "js"  ]]; then
+	shj_log "JavaScript Shield: $JS_SHIELD_ON"
 elif [[ $EXT = "java" ]]; then
 	shj_log "JAVA_POLICY: \"$JAVA_POLICY\""
 	shj_log "DISPLAY_JAVA_EXCEPTION_ON: $DISPLAY_JAVA_EXCEPTION_ON"
@@ -281,6 +289,33 @@ if [ "$EXT" = "py3" ]; then
 	fi
 fi
 
+
+########################################################################################################
+########################################## COMPILING JAVASCRIPT ##########################################
+########################################################################################################
+
+if [ "$EXT" = "js" ]; then
+	# cp ../javascript.policy javascript.policy
+	cp $PROBLEMPATH/$UN/$FILENAME.js $MAINFILENAME.js
+	shj_log "Compiling as Javascript"
+	node --check $MAINFILENAME.js >/dev/null 2>cerr 
+	EXITCODE=$?
+	COMPILE_END_TIME=$(($(date +%s%N)/1000000));
+	shj_log "Compiled. Exit Code=$EXITCODE  Execution Time: $((COMPILE_END_TIME-COMPILE_BEGIN_TIME)) ms"
+	if [ $EXITCODE -ne 0 ]; then
+		shj_log "Compile Error"
+		shj_log "$(cat cerr|head -10)"
+		echo '<span class="shj_b">Compile Error</span>' >$PROBLEMPATH/$UN/result.html
+		echo '<span class="shj_r">' >> $PROBLEMPATH/$UN/result.html
+		#filepath="$(echo "${JAIL}/${FILENAME}.${EXT}" | sed 's/\//\\\//g')" #replacing / with \/
+		(cat cerr | head -10 | sed 's/&/\&amp;/g' | sed 's/</\&lt;/g' | sed 's/>/\&gt;/g' | sed 's/"/\&quot;/g') >> $PROBLEMPATH/$UN/result.html
+		#(cat $JAIL/cerr) >> $PROBLEMPATH/$UN/result.html
+		echo "</span>" >> $PROBLEMPATH/$UN/result.html
+		cd ..
+		rm -r $JAIL >/dev/null 2>/dev/null
+		shj_finish "Compilation Error"
+	fi
+fi
 
 
 ########################################################################################################
@@ -470,6 +505,22 @@ for((i=1;i<=TST;i++)); do
 			./runcode.sh $EXT $MEMLIMIT $TIMELIMIT $TIMELIMITINT $PROBLEMPATH/in/input$i.txt "python3 -O $FILENAME.py"
 		fi
 		EXITCODE=$?
+	
+
+	elif [ "$EXT" = "js" ]; then
+#		if $PERL_EXISTS; then
+#			./runcode.sh $EXT $MEMLIMIT $TIMELIMIT $TIMELIMITINT $PROBLEMPATH/in/input$i.txt "./timeout --just-kill -nosandbox -l $OUTLIMIT -t $TIMELIMIT -m $MEMLIMIT node $FILENAME.js"
+#		else
+			./runcode.sh $EXT $MEMLIMIT $TIMELIMIT $TIMELIMITINT $PROBLEMPATH/in/input$i.txt "node $FILENAME.js"
+#		fi
+		EXITCODE=$?	
+	# elif [ "$EXT" = "js" ]; then
+	# 	if $PERL_EXISTS; then
+	# 		./runcode.sh  $EXT $TIMELIMIT $TIMELIMITINT $PROBLEMPATH/in/input$i.txt "./timeout --just-kill -nosandbox -l $OUTLIMIT -t $TIMELIMIT -m $MEMLIMIT node $FILENAME.js"
+	# 	else
+	# 		./runcode.sh  $EXT $TIMELIMIT $TIMELIMITINT $PROBLEMPATH/in/input$i.txt "node $FILENAME.js"
+	# 	fi
+	# 	EXITCODE=$?		
 
 	else
 		shj_log "File Format Not Supported"
@@ -509,8 +560,8 @@ for((i=1;i<=TST;i++)); do
 	fi
 	
 	if [ $EXITCODE -eq 137 ]; then
-		#shj_log "Time Limit Exceeded (Exit code=$EXITCODE)"
-		#echo "<span style='color: orange;'>Time Limit Exceeded</span>" >>$PROBLEMPATH/$UN/result.html
+		shj_log "Time Limit Exceeded (Exit code=$EXITCODE)"
+		echo "<span style='color: orange;'>Time Limit Exceeded</span>" >>$PROBLEMPATH/$UN/result.html
 		shj_log "Killed"
 		echo "<span class=\"shj_o\">Killed</span>" >>$PROBLEMPATH/$UN/result.html
 		continue
@@ -519,9 +570,11 @@ for((i=1;i<=TST;i++)); do
 
 	if [ $EXITCODE -ne 0 ]; then
 		shj_log "Runtime Error"
-		echo "<span class=\"shj_o\">Runtime Error</span>" >>$PROBLEMPATH/$UN/result.html
+		echo "<span class=\"shj_o\">Runtime Error $EXITCODE</span>" >>$PROBLEMPATH/$UN/result.html
+		cat err >> $PROBLEMPATH/$UN/result.html
 		continue
 	fi
+	
 	
 	# checking correctness of output
 	ACCEPTED=false
