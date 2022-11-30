@@ -32,14 +32,23 @@ if [ $EXT == "py2" ]; then
 elif [ $EXT == "py3" ]; then
         mem=$(pid=$(python3 >/dev/null 2>/dev/null & echo $!) && ps -p $pid -o vsz=; kill $pid >/dev/null 2>/dev/null;)
         MEMLIMIT=$((MEMLIMIT+mem+5000))
-fi
 
+
+# elif [ $EXT == "js" ]; then
+#         mem=$(pid=$(javascript >/dev/null 2>/dev/null & echo $!) && ps -p $pid vsz=; kill $pid >/dev/null 2>/dev/null;)
+#         MEMLIMIT=$((MEMLIMIT+mem+5000))
+fi 
+
+# Memory limit for javascript
+if [ $EXT == "js" ]; then
+		MEMLIMIT=--max_old_space_size=$((MEMLIMIT+50000))
+fi
 
 # Imposing memory limit with ulimit
 if [ "$EXT" != "java" ]; then
-	ulimit -v $((MEMLIMIT+10000))
-	ulimit -m $((MEMLIMIT+10000))
-	ulimit -s $((MEMLIMIT+10000))
+	ulimit -v $((MEMLIMIT))
+	ulimit -m $((MEMLIMIT))
+	ulimit -s $((MEMLIMIT))
 fi
 
 # Imposing time limit with ulimit
@@ -48,9 +57,12 @@ ulimit -t $TIMELIMITINT
 if $TIMEOUT_EXISTS; then
 	# Run the command with REAL time limit of TIMELIMITINT*2
 	timeout -s9 $((TIMELIMITINT*2)) $CMD <$IN >out 2>err
+#	echo "$CMD <$IN >out 2>err" >> err
+#	ls /var/www/html/SharIF-Judge/restricted/tester/ >> err
+
 else
 	# Run the command
-	$CMD <$IN >out 2>err	
+	$CMD <$IN >out 2>err
 fi
 # You can run submitted codes as another user:
 #
